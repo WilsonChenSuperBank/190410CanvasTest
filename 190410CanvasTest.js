@@ -89,7 +89,20 @@ document.getElementById("open-electronic-all").addEventListener("click", functio
 
 $(".electronic-mask").click(function(){
   controlElectronicWindow();
-})
+});
+
+var disableScroll = function(){
+  canvas.allowTouchScrolling = false;
+};
+
+var enableScroll = function(){
+  canvas.allowTouchScrolling = true;
+};
+
+canvas.on('object:moving', disableScroll);
+canvas.on('object:scaling', disableScroll);
+canvas.on('object:rotating', disableScroll);
+canvas.on('mouse:up', enableScroll);
 
 
 function onDocumentTouchStart(event) {
