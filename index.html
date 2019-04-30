@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Canvas to do</title>
+    <meta charset="utf-8" />
+    <link rel="StyleSheet" type="text/css" href="reset.css" />
+    <style>
+      canvas {
+        border: solid 1px gray;
+      }
+      .tools {
+        margin-right: 5px;
+        padding: 2px 2px 2px 2px;
+        border: solid 2px #6699cc;
+        width: 120px;
+        height: 474px;
+        float: left;
+      }
+      .flying {
+        position: fixed;
+        width: 100px;
+        height: 50px;
+        transform: translateX(-50%) translateY(-50%);
+        top: 50%;
+        left: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flying">
+      <canvas id="canvas" width="300" height="200"
+        ><button id="saveCanvas">保存</button>
+        <button id="delCanvas">清除</button></canvas>
+    </div>
+
+    <img
+      style="width:300px;height:200px;"
+      id="canvasDelay"
+      src=""
+      alt="canvasDelay"
+    />
+
+    <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+    <!-- <script src="./jquery.colorPicker.js"></script> -->
+    <script>
+      function EventEmitter() {
+        this.events = {};
+      }
+      EventEmitter.prototype.on = function(name, cb) {
+        if (typeof this.events[name] !== "undefined") {
+          this.events[name] = [];
+        }
+        this.events[name].push(cb);
+      };
+      EventEmitter.prototype.emit = function() {
+        var self = this;
+        if (arguments.length < 1) {
+        }
+      };
+
+      $(document).ready(function() {
+        var canvas = $("#canvas");
+        var context = canvas[0].getContext("2d");
+        var drawing = false;
+        var queue = [];
+        context.lineCap = "round";
+        context.lineJoin = "round";
+        // $("#color").colorPicker({
+        //   onColorChange: function(id, val) {
+        //     context.strokeStyle = val;
+        //   }
+        // });
+
+        canvas.bind("mousedown", function(e) {
+          e.preventDefault();
+          if (!drawing) {
+            $(this).data("cursor", $(this).css("cursor"));
+            $(this).css("cursor", "pointer");
+            drawing = true;
+            var offset = $(e.currentTarget).offset();
+            var x = e.pageX - offset.left;
+            var y = e.pageY - offset.top;
+            drawLine(context, x, y, x, y);
+            queue.push([x, y]);
+          }
+        });
+        canvas.bind("mousemove", function(e) {
+          e.preventDefault();
+          if (drawing) {
+            var old = queue.shift();
+            var offset = $(e.currentTarget).offset();
+            var x = e.pageX - offset.left;
+            var y = e.pageY - offset.top;
+            console.log("old=");
+            console.log(old);
+
+            drawLine(context, old[0], old[1], x, y);
+            queue.push([x, y]);
+          }
+        });
+        canvas.bind("mouseup", function(e) {
+          if (drawing) {
+            $(this).css("cursor", $(this).data("cursor"));
+            var old = queue.shift();
+            var offset = $(e.currentTarget).offset();
+
+            // var x = e.pageX - offset.left;
+            // var y = e.pageY - offset.top;
+
+            var x = e.touches[0].pageX;
+            var y = e.touches[0].pageY;
+
+            // console.log(y);
+            drawLine(context, old[0], old[1], x, y);
+            drawing = false;
+          }
+        });
+        canvas.bind("mouseleave", function(e) {
+          if (drawing) {
+            $(this).css("cursor", $(this).data("cursor"));
+            var old = queue.shift();
+            var offset = $(e.currentTarget).offset();
+            var x = e.pageX - offset.left;
+            var y = e.pageY - offset.top;
+            console.log("old=");
+            console.log(old);
+            drawLine(context, old[0], old[1], x, y);
+            drawing = false;
+          }
+        });
+        $("#linewidth").bind("change", function() {
+          context.lineWidth = $(this).val();
+        });
+
+        function drawLine(ctx, x, y, x1, y1) {
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x1, y1);
+          ctx.closePath();
+          ctx.stroke();
+        }
+
+        //touch start
+        document
+          .getElementById("canvas")
+          .addEventListener("touchstart", function(e) {
+            console.log("touchStart");
+            if (drawing) {
+              $(this).css("cursor", $(this).data("cursor"));
+              var old = queue.shift();
+              var offset = $(e.currentTarget).offset();
+              // var x = e.pageX - offset.left;
+              // var y = e.pageY - offset.top;
+              var x = e.touches[0].pageX;
+              var y = e.touches[0].pageY;
+              console.log("old=");
+              console.log(old);
+              drawLine(context, 500, 501, 502, 503);
+              drawing = false;
+            }
+          });
+        document
+          .getElementById("canvas")
+          .addEventListener("touchmove", function(e) {
+            console.log("touch move");
+            e.preventDefault();
+            if (true) {
+              var old = queue.shift();
+              var offset = $(e.currentTarget).offset();
+              // var x = e.pageX - offset.left;
+              // var y = e.pageY - offset.top;
+              var x = e.touches[0].pageX;
+              var y = e.touches[0].pageY;
+              console.log("old=");
+              console.log(old);
+              console.log("E=");
+              console.log(e);
+              drawLine(context, 500, 501, 502, 503);
+              queue.push([x, y]);
+            }
+          });
+        document
+          .getElementById("canvas")
+          .addEventListener("touchend", function(e) {
+            console.log("touch end");
+            if (!drawing) {
+              $(this).data("cursor", $(this).css("cursor"));
+              $(this).css("cursor", "pointer");
+              console.log("in");
+              drawing = true;
+              var offset = $(e.currentTarget).offset();
+              // var x = e.pageX - offset.left;
+              // var y = e.pageY - offset.top;
+              var x = e.touches[0].pageX;
+              var y = e.touches[0].pageY;
+              drawLine(context, 500, 501, 502, 503);
+              queue.push([x, y]);
+            }
+          });
+      });
+
+      document
+        .getElementById("delCanvas")
+        .addEventListener("click", function() {
+          canvas.width = canvas.width;
+        });
+      document
+        .getElementById("saveCanvas")
+        .addEventListener("click", function() {
+          $("#canvasDelay").attr("src", canvas.toDataURL("image/png"));
+        });
+    </script>
+  </body>
+</html>
