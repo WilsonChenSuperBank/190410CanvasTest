@@ -1,6 +1,7 @@
 body {
   margin: 0;
   position: fixed;
+  top: 0;
 }
 
 .electronic-mask {
