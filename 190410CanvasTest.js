@@ -126,7 +126,7 @@ function onDocumentTouchStart(event) {
     mouseY = event.touches[0].pageY;
     isMouseDown = true;
   }
-  event.preventDefault();
+  
 }
 
 function onDocumentTouchMove(event) {
@@ -143,7 +143,7 @@ function onDocumentTouchEnd(event) {
     event.preventDefault();
     isMouseDown = false;
   }
-  event.preventDefault();
+  
 }
 
 function addClickPush(x, y, dragging){
