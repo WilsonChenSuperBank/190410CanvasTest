@@ -99,10 +99,10 @@ var enableScroll = function(){
   canvas.allowTouchScrolling = true;
 };
 
-canvas.on('object:moving', disableScroll);
-canvas.on('object:scaling', disableScroll);
-canvas.on('object:rotating', disableScroll);
-canvas.on('mouse:up', enableScroll);
+// canvas.on('object:moving', disableScroll);
+// canvas.on('object:scaling', disableScroll);
+// canvas.on('object:rotating', disableScroll);
+// canvas.on('mouse:up', enableScroll);
 
 
 function onDocumentTouchStart(event) {
@@ -119,6 +119,7 @@ function onDocumentTouchStart(event) {
     mouseY = event.touches[0].pageY;
     isMouseDown = true;
   }
+  event.preventDefault();
 }
 
 function onDocumentTouchMove(event) {
@@ -127,6 +128,7 @@ function onDocumentTouchMove(event) {
     mouseX = event.touches[0].pageX;
     mouseY = event.touches[0].pageY;
   }
+  event.preventDefault();
 }
 
 function onDocumentTouchEnd(event) {
@@ -134,6 +136,7 @@ function onDocumentTouchEnd(event) {
     event.preventDefault();
     isMouseDown = false;
   }
+  event.preventDefault();
 }
 
 function addClickPush(x, y, dragging){
