@@ -33,11 +33,13 @@ canvas.addEventListener("touchstart", function(e) {
   );
   //console.log(e.touches[0].pageX - this.offsetLeft, e.touches[0].pageY - this.offsetTop);
   // redraw();
+  e.preventDefault();
 });
 
 canvas.addEventListener("touchend", function(e) {
   //console.log("touch end");
   paint = false;
+  e.preventDefault();
 });
 
 canvas.addEventListener("touchmove", function(e) {
@@ -52,6 +54,7 @@ canvas.addEventListener("touchmove", function(e) {
     //console.log(e.touches[0].pageX - this.offsetLeft, e.touches[0].pageY - this.offsetTop);
     // redraw();
   }
+  e.preventDefault();
 });
 
 canvas.addEventListener("mousedown", function(e) {
@@ -60,6 +63,7 @@ canvas.addEventListener("mousedown", function(e) {
   paint = true;
   addClickPush(e.pageX - $("#canvasConverse").offset().left, e.pageY - $("#canvasConverse").offset().top);
   // redraw();
+  e.preventDefault();
 });
 canvas.addEventListener("mousemove", function(e) {
   
@@ -67,12 +71,15 @@ canvas.addEventListener("mousemove", function(e) {
     addClickPush(e.pageX - $("#canvasConverse").offset().left, e.pageY - $("#canvasConverse").offset().top, true);
     // redraw();
   }
+  e.preventDefault();
 });
 canvas.addEventListener("mouseup", function(e) {
   paint = false;
+  e.preventDefault();
 });
 canvas.addEventListener("mouseleave", function(e) {
   paint = false;
+  e.preventDefault();
 });
 document.getElementById("btn_clear").addEventListener("click", function() {
   canvas.width = canvas.width;
