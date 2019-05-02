@@ -4,7 +4,7 @@ var canvas = document.getElementById("canvasConverse");
 // var screenwidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var canvasWidth = ($('.electronic-canvas-all').width()-4);
 var canvasHeight = 200;
-document.addEventListener("touchmove", onDocumentTouchMove, false);
+// document.addEventListener("touchmove", onDocumentTouchMove, false);
 var point = {};
 point.notFirst = false;
 canvas.setAttribute("width", canvasWidth);
@@ -33,13 +33,13 @@ canvas.addEventListener("touchstart", function(e) {
   );
   //console.log(e.touches[0].pageX - this.offsetLeft, e.touches[0].pageY - this.offsetTop);
   // redraw();
-  e.preventDefault();
+  
 });
 
 canvas.addEventListener("touchend", function(e) {
   //console.log("touch end");
   paint = false;
-  e.preventDefault();
+  
 });
 
 canvas.addEventListener("touchmove", function(e) {
@@ -54,7 +54,7 @@ canvas.addEventListener("touchmove", function(e) {
     //console.log(e.touches[0].pageX - this.offsetLeft, e.touches[0].pageY - this.offsetTop);
     // redraw();
   }
-  e.preventDefault();
+  e.prevenrDefault();
 });
 
 canvas.addEventListener("mousedown", function(e) {
@@ -63,7 +63,7 @@ canvas.addEventListener("mousedown", function(e) {
   paint = true;
   addClickPush(e.pageX - $("#canvasConverse").offset().left, e.pageY - $("#canvasConverse").offset().top);
   // redraw();
-  e.preventDefault();
+  
 });
 canvas.addEventListener("mousemove", function(e) {
   
@@ -79,7 +79,7 @@ canvas.addEventListener("mouseup", function(e) {
 });
 canvas.addEventListener("mouseleave", function(e) {
   paint = false;
-  e.preventDefault();
+  
 });
 document.getElementById("btn_clear").addEventListener("click", function() {
   canvas.width = canvas.width;
@@ -126,7 +126,7 @@ function onDocumentTouchStart(event) {
     mouseY = event.touches[0].pageY;
     isMouseDown = true;
   }
-  event.preventDefault();
+  
 }
 
 function onDocumentTouchMove(event) {
@@ -135,7 +135,7 @@ function onDocumentTouchMove(event) {
     mouseX = event.touches[0].pageX;
     mouseY = event.touches[0].pageY;
   }
-  event.preventDefault();
+ 
 }
 
 function onDocumentTouchEnd(event) {
@@ -143,7 +143,7 @@ function onDocumentTouchEnd(event) {
     event.preventDefault();
     isMouseDown = false;
   }
-  event.preventDefault();
+  
 }
 
 function addClickPush(x, y, dragging){
