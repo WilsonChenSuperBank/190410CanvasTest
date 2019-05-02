@@ -135,7 +135,7 @@ function onDocumentTouchMove(event) {
     mouseX = event.touches[0].pageX;
     mouseY = event.touches[0].pageY;
   }
- 
+  event.preventDefault();
 }
 
 function onDocumentTouchEnd(event) {
